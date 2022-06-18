@@ -20,7 +20,7 @@ commentRouter.post('/api/messageboard/:messageBoardID/comment', bearerAuth, (req
   req.body.messageBoardID = req.params.messageBoardID;
 
   MessageBoard.findByIdAndAddComment(req.params.messageBoardID, req.body)
-    .then(res.json)
+    .then(data => res.json(data))
     .catch(next);
 });
 
