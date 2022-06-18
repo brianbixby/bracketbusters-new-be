@@ -55,6 +55,9 @@ leagueRouter.post('/api/sportingevent/:sportingeventID/league', bearerAuth, (req
 leagueRouter.post('/api/league/private/adduser', bearerAuth, (req, res, next) => {
   League.findOneAndUpdate({ leagueName: req.body.leagueName, password: req.body.password }, { $push: { users: req.user._id }, $inc: { size: 1 }}, { new: true })
     .then(league => {
+      if (!league) {
+        return next(createError(401, 'UNAUTHORIZED ACCESS ERROR: invalid credentials'));
+      }
       let scoreboard = { leagueID: league._id, userID: req.user._id, sportingEventID: league.sportingEventID };
       if (!scoreboard.leagueID || !scoreboard.userID || !scoreboard.sportingEventID)
         return next(createError(400, 'BAD REQUEST ERROR: expected a scoreboard leagueID, sportingEventID and userID'));

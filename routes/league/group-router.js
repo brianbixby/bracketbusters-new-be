@@ -45,6 +45,9 @@ groupRouter.post('/api/group', bearerAuth, (req, res, next) => {
 groupRouter.post('/api/group/private/adduser', bearerAuth, (req, res, next) => {
   Group.findOneAndUpdate({ groupName: req.body.groupName, password: req.body.password }, { $push: { users: req.user._id, userNames: req.user.username }, $inc: { size: 1 }}, { new: true })
     .then(group => {
+      if (!group) {
+        return next(createError(401, 'UNAUTHORIZED ACCESS ERROR: invalid credentials'));
+      }  
       Profile.findOneAndUpdate({ userID: req.user._id }, { $push: { groups: group._id }})
         .then(() => res.json(group))
         .catch(next);
