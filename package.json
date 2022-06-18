@@ -7,6 +7,9 @@
     "node": "16.14.2",
     "npm": "8.5.0"
   },
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
     "watch": "nodemon server.js",
     "seed": "node seeds/index.js",
