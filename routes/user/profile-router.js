@@ -1,6 +1,6 @@
 'use strict';
 
-const { Router, json } = require('express');
+const { Router } = require('express');
 const createError = require('http-errors');
 
 const Profile = require('../../model/user/profile.js');

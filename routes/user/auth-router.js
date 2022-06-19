@@ -2,7 +2,6 @@
 
 const { Router } = require('express');
 const createError = require('http-errors');
-const bcrypt = require('bcrypt');
 
 const basicAuth = require('../../lib/basic-auth-middleware.js');
 const bearerAuth = require('../../lib/bearer-auth-middleware');

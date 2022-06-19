@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const createError = require('http-errors');
+const crypto = require('node:crypto');
 
 const userSchema = new mongoose.Schema({
     username: {type: String, required: true, unique: true },
@@ -16,7 +17,6 @@ userSchema.methods.generatePasswordHash = function(password) {
   return new Promise((resolve, reject) => {
     bcrypt.hash(password, 5, (err, hash) => {
       if(err) {
-        console.log("gen passwd hash err: ", err);
         return reject(err);
       }
       this.password = hash;
@@ -30,10 +30,8 @@ userSchema.methods.comparePasswordHash = function(password) {
     bcrypt.compare(password, this.password, (err, valid) => {
       if(err)
         return reject(err);
-
       if(!valid)
         return reject(createError(401, 'invalid password'));
-        
       resolve(this);
     });
   });
@@ -46,12 +44,6 @@ userSchema.methods.generateFindHash = function() {
     _generateFindHash.call(this);
 
     function _generateFindHash() {
-        let crypto;
-        try {
-        crypto = require('node:crypto');
-        } catch (err) {
-        console.log('crypto support is disabled!');
-        }
       this.findHash = crypto.randomBytes(32).toString('hex');
       this.save()
         .then(() => resolve(this.findHash))
