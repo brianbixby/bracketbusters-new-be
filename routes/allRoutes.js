@@ -17,7 +17,6 @@ const errors = require('./../lib/error-middleware.js');
 
 module.exports = new Router()
   .use([
-    // ROUTERS
     authRouter,
     profileRouter,
     sportingEventsRouter,
@@ -29,7 +28,6 @@ module.exports = new Router()
     groupRouter,
     messageBoardRouter,
     commentRouter,
-    // ERROR HANDLERS
     errors,
   ]);
   
