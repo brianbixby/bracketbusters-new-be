@@ -1,6 +1,7 @@
 "use strict";
 
 require('dotenv').config();
+const compression = require('compression');
 const express = require('express');
 const cors = require('cors');
 const db = require('./config/connection');
@@ -9,6 +10,7 @@ const routes = require('./routes/allRoutes');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
